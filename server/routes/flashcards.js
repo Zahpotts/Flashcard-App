@@ -1,6 +1,7 @@
 const express = require('express');
 const fs = require('fs');
 const path = require('path');
+const genai = require('../config/googleai');
 
 const router = express.Router();
 
@@ -14,5 +15,8 @@ router.get('/:topic', (req, res) => {
     res.json({topic, flashcards});
 
 });
+
+
+
 
 module.exports = router;
