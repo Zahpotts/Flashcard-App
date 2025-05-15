@@ -1,8 +1,9 @@
-const express = require('express');
-const cors = require('cors');
-const flashcardsRouter = require('./routes/flashcards');
+import express from 'express';
+import cors from 'cors';
+import flashcardsRouter from './routes/flashcards.js';
+import dotenv from 'dotenv';
 
-require('dotenv').config();
+dotenv.config();
 
 const app = express();
 

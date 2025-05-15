@@ -6,7 +6,7 @@ export default function Layout({ children }) {
             </header>
             <main>{children}</main>
             <footer>
-                <p>&copy; 2023 Flashcards App</p>
+                <p>&copy; 2025 Flashcards App</p>
             </footer>
         </div>
     );
