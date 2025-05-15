@@ -1,0 +1,20 @@
+[{
+   "id": 1,
+   "question": "What is JavaScript?",
+   "answer": "JavaScript is a high-level, dynamic, untyped, and interpreted programming language. It is a prototype-based language with first-class functions, and it is widely used for web development."
+},
+{ 
+"id": 2,
+   "question": "What are the data types supported by JavaScript?",
+   "answer": "JavaScript supports several data types including undefined, null, boolean, number, string, object, and symbol."
+},
+{
+   "id": 3,
+   "question": "What is a closure in JavaScript?",
+   "answer": "A closure is a function that retains access to its lexical scope, even when the function is executed outside that scope."
+},
+{
+   "id": 4,
+   "question": "What is the difference between '==' and '===' in JavaScript?",
+   "answer": "'==' is the equality operator that performs type coercion, while '===' is the strict equality operator that checks for both value and type equality."
+}]

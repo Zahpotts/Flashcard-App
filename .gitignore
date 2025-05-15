@@ -1,0 +1,23 @@
+# Node modules (both client and server)
+node_modules/
+
+# Logs
+*.log
+logs/
+
+# Environment variables
+.env
+.env.*
+
+# OS/IDE junk
+.DS_Store
+.vscode/
+.idea/
+
+# Next.js build files
+client/.next/
+client/out/
+
+# Build output for server (if applicable)
+server/build/
+server/dist/
