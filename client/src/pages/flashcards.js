@@ -23,15 +23,15 @@ export default function Flashcards() {
     return (
         <div className="p-4 max-w-xl mx-auto">
             <h1 className=" text-xl font-bold mb-4">Flashcards</h1>
-            <input 
-                className = "border p-2  w-full mb-4"
+            <input
+                className="border p-2  w-full mb-4"
                 type="text"
                 placeholder="Enter topic"
                 value={topic}
                 onChange={(e) => setTopic(e.target.value)}
             />
             <input
-                className = "border p-2  w-full mb-4"
+                className="border p-2  w-full mb-4"
                 type="number"
                 placeholder="Number of flashcards"
                 value={count}
@@ -40,18 +40,18 @@ export default function Flashcards() {
             <button
                 className="bg-blue-500 text-white p-2 rounded"
                 onClick={generateFlashcards}
-                >
-                    {loading ? 'Generating...' : 'Generate Flashcards'}
-                </button>
+            >
+                {loading ? 'Generating...' : 'Generate Flashcards'}
+            </button>
             <ul className="mt-6 space-y-4">
-            {flashcards.map((card, index) => (
-                <li key={index} className="border p-4 rounded shadow">
-                    <p><strong>Q:</strong>{card.question}</p>
-                    <p className="mt-2"><strong>A:</strong> {card.answer}</p>
-                </li>
-            
-            ))}
+                {flashcards.map((card, index) => (
+                    <li key={index} className="border p-4 rounded shadow">
+                        <p><strong>Q:</strong>{card.question}</p>
+                        <p className="mt-2"><strong>A:</strong> {card.answer}</p>
+                    </li>
+
+                ))}
             </ul>
         </div>
-        );
-    }
+    );
+}
