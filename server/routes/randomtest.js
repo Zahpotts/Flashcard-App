@@ -21,14 +21,11 @@ router.get('/:topic', (req, res) => {
 
 router.post('/generate', async (req, res) => {
     try {
-        const { topic, count = 5 } = req.body;
-
-
-
+        const { topic, questions = 5} = req.body;
+        
         if (!topic) {
             return res.status(400).json({ error: 'Topic is required' });
         }
-
         // Validate that googleGenAI is properly configured
         if (!googleGenAI || !googleGenAI.models) {
             console.error('Google AI API not properly configured - missing API key or configuration');
@@ -37,11 +34,7 @@ router.post('/generate', async (req, res) => {
                 details: 'Check your API key and environment variables'
             });
         }
-
-        const prompt = `Generate ${count} flashcards for the topic "${topic}". Each flashcard should be a JSON object with a "question" and "answer". Return only a valid JSON array with no additional text.`;
-
-
-
+        const prompt = `Generate ${questions} a random test with 4 options for the topic "${topic}". Each question should be a JSON object with a "question" and "options". Return only a valid JSON array with no additional text.`;
         try {
 
             const result = await googleGenAI.models.generateContent({
@@ -88,7 +81,7 @@ router.post('/generate', async (req, res) => {
                 return res.status(500).json({ error: "AI response missing text content" });
             }
 
-            let flashcards;
+            let randomTest = [];
             try {
                 // Try to parse the model response, removing any markdown formatting
 
@@ -96,27 +89,23 @@ router.post('/generate', async (req, res) => {
                 const cleanedText = text.replace(/```json|```/g, '').trim();
 
 
-                flashcards = JSON.parse(cleanedText);
+                randomTest = JSON.parse(cleanedText);
 
 
                 // Validate flashcards format
-                if (!Array.isArray(flashcards)) {
-                    console.error('Response is not an array, got:', typeof flashcards);
+                if (!Array.isArray(randomTest)) {
+                    console.error('Response is not an array, got:', typeof randomTest);
                     throw new Error('Response is not an array');
                 }
 
 
 
-                // Ensure each flashcard has the right format
-                flashcards = flashcards.map((card, index) => {
-                    if (!card.question || !card.answer) {
-                        console.warn(`Flashcard at index ${index} is missing question or answer:`, card);
-                        return {
-                            question: card.question || `Question ${index + 1}`,
-                            answer: card.answer || 'No answer provided'
-                        };
+                // Ensure each question has the right format
+               randomTest.forEach((item, index) => {
+                    if (typeof item !== 'object' || !item.question || !item.options) {
+                        console.error(`Question ${index} is not in the expected format:`, item);
+                        throw new Error(`Question ${index} is not in the expected format`);
                     }
-                    return card;
                 });
 
             } catch (err) {
@@ -130,7 +119,7 @@ router.post('/generate', async (req, res) => {
             }
 
 
-            res.json({ topic, flashcards });
+            res.json({ topic, randomTest });
         } catch (apiError) {
             console.error("API call error:", apiError);
             return res.status(500).json({
