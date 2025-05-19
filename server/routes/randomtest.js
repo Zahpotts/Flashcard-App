@@ -21,7 +21,7 @@ router.get('/:topic', (req, res) => {
 
 router.post('/generate', async (req, res) => {
     try {
-        const { topic, questions = 5} = req.body;
+        const { topic, count = 5} = req.body;
         
         if (!topic) {
             return res.status(400).json({ error: 'Topic is required' });
@@ -34,7 +34,7 @@ router.post('/generate', async (req, res) => {
                 details: 'Check your API key and environment variables'
             });
         }
-        const prompt = `Generate ${questions} a random test with 4 options for the topic "${topic}". Each question should be a JSON object with a "question" and "options". Return only a valid JSON array with no additional text.`;
+        const prompt = `Generate ${count} a random test with 4 options for the topic "${topic}". Each question should be a JSON object with a "question" and "options". Return only a valid JSON array with no additional text.`;
         try {
 
             const result = await googleGenAI.models.generateContent({
