@@ -5,9 +5,20 @@ export default function RandomTest() {
     const [topic, setTopic] = useState('');
     const [count, setCount] = useState(5);
     const [loading, setLoading] = useState(false);
+    const [error, setError] = useState(null);
+    const [selectedAnswer, setSelectedAnswer] = useState({});
+    const [isSubmitted, setIsSubmitted] = useState(false);
+    cost [score, setScore] = useState(null);
+    
+    const optionsLable = ['A', 'B', 'C', 'D']; 
 
     const generateRandomTest = async () => {
+
         setLoading(true);
+        setError(null);
+        setSelectedAnswer({});
+        setIsSubmitted(false);
+        setScore(null);
         const response = await fetch('http://localhost:5000/api/randomtest/generate', {
             method: 'POST',
             headers: {
@@ -47,8 +58,11 @@ export default function RandomTest() {
                     <li key={index} className="border p-4 rounded shadow">
                         <p><strong>Q:</strong>{question.question}</p>
                         <ul className="mt-2">
-                            {question.options.map((option, i) => (
-                                <li key={i} className="ml-4">{option}</li>
+                            {question.options && question.options.map((option, i) => (
+                                <li key={i} className="ml-4">
+                                        <span className="font-bold mr-2">{optionsLable[i]}.</span>
+                                        {option}
+                                    </li>
                             ))}
                         </ul>
                     </li>
