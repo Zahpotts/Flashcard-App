@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { API_BASE_URL } from "@/config/api";
 
 export default function RandomTest() {
     const [randomTest, setRandomTest] = useState([]);
@@ -21,10 +22,9 @@ export default function RandomTest() {
         setIsSubmitted(false);
         setScore(null);
         try {
-            console.log("Sending request to:", "http://localhost:5000/api/randomtest/generate");
-            console.log("Request payload:", { topic, count });
+            
 
-            const response = await fetch('http://localhost:5000/api/randomtest/generate', {
+            const response = await fetch(`${API_BASE_URL}/api/randomtest/generate`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
