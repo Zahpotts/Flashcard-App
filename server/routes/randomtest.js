@@ -34,7 +34,13 @@ router.post('/generate', async (req, res) => {
                 details: 'Check your API key and environment variables'
             });
         }
-        const prompt = `Generate ${count} a random test with 4 options for the topic "${topic}". Each question should be a JSON object with a "question" and "options". Return only a valid JSON array with no additional text.`;
+        const prompt = 
+ `Generate ${count} random test questions with 4 options each for the topic "${topic}". 
+Each question should be a JSON object with properties:
+- "question": the question text
+- "options": an array of 4 possible answers
+- "correctAnswerIndex": the index (0-3) of the correct answer in the options array
+Return only a valid JSON array with no additional text.`;
         try {
 
             const result = await googleGenAI.models.generateContent({
@@ -83,7 +89,8 @@ router.post('/generate', async (req, res) => {
 
             let randomTest = [];
             try {
-                // Try to parse the model response, removing any markdown formatting
+                
+               
 
                 // Remove markdown code blocks (```json and ```)
                 const cleanedText = text.replace(/```json|```/g, '').trim();

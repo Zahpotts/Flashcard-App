@@ -13,38 +13,39 @@ export default function Chatbot() {
     useEffect(() => {
         scrollToBottom();
     }, [messages]);
-    
+
     const sendMessage = async () => {
-        if(!input.trim()) return;
+        if (!input.trim()) return;
         const newMessage = { role: 'user', content: input };
         setMessages(prev => [...prev, newMessage]);
         setInput('');
         setLoading(true);
-        try{
-            const response = await fetch('http://localhost:5000/api/chatbot', {
+        try {
+            const response = await fetch('http://localhost:5000/api/chatbot/chat', {
                 method: 'POST',
-                headers:{
+                headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ messages: input, history: messages }),
+                body: JSON.stringify({ message: input, history: messages }),
             });
             const data = await response.json();
-            if(response.ok){
+            console.log("Response from server:", data);
+            if (response.ok) {
                 setMessages(prev => [...prev, { role: 'assistant', content: data.response }]);
-            } else{
+            } else {
                 setMessages(prev => [...prev, { role: 'assistant', content: "Sorry, I encountered an error while processing your request." }]);
             }
         } catch (error) {
             console.error("Error sending message:", error);
             setMessages(prev => [...prev, { role: 'assistant', content: "Sorry, I encountered an error. Please try again" }]);
 
-        }finally{
+        } finally {
             setLoading(false);
-            
+
         }
     }
 
-    const handleKeyDown = (e) => {
+    const handleKeyPress = (e) => {
         if (e.key === 'Enter' && !e.shiftKey) {
             e.preventDefault();
             sendMessage();
@@ -53,9 +54,9 @@ export default function Chatbot() {
     const clearChat = () => {
         setMessages([{ role: 'assistant', content: "Hello! I'm your AI learning assistant. Ask me anything about any topic you'd like to learn" }]);
     };
-    
+
     return (
-        <div className="p-4 max-w-4xl mx-auto h-screen flex flex-col">
+        <div className="p-4 max-w-4xl mx-auto h-screen flex flex-col dark:bg-gray-900 bg-white text-gray-800 dark:text-gray-200">
             <div className="flex justify-between items-center mb-4">
                 <h1 className="text-2xl font-bold">AI Learning Chatbot</h1>
                 <button onClick={clearChat} className="bg-red-500 text-white px-4 py-2 rounded">Clear Chat</button>
@@ -69,11 +70,10 @@ export default function Chatbot() {
                             className={`flex ${message.role === 'user' ? 'justify-end' : 'justify-start'}`}
                         >
                             <div
-                                className={`max-w-3xl p-3 rounded-lg ${
-                                    message.role === 'user'
+                                className={`max-w-3xl p-3 rounded-lg ${message.role === 'user'
                                         ? 'bg-blue-500 text-white'
                                         : 'bg-white border shadow-sm'
-                                }`}
+                                    }`}
                             >
                                 <div className="text-sm font-medium mb-1">
                                     {message.role === 'user' ? 'You' : 'AI Assistant'}
@@ -88,8 +88,8 @@ export default function Chatbot() {
                                 <div className="text-sm font-medium mb-1">AI Assistant</div>
                                 <div className="flex items-center space-x-1">
                                     <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce"></div>
-                                    <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{animationDelay: '0.1s'}}></div>
-                                    <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{animationDelay: '0.2s'}}></div>
+                                    <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '0.1s' }}></div>
+                                    <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
                                 </div>
                             </div>
                         </div>

@@ -1,13 +1,17 @@
-export default function Layout({ children }) {
+import Head from "next/head";
+import Navbar from "./Navbar";
+import Footer from "./Footer";
+export default function Layout({ children, title = 'AI Learning App' }) {
     return (
-        <div>
-            <header>
-                <h1>Flashcards App</h1>
-            </header>
+        <div className=" bg-transparent flex flex-col min-h-screen">
+            <Head>
+                <title>{title}</title>
+                <meta name="description" content="AI Learning App - Flashcards, Chatbot, and Random Tests" />
+                <link rel="icon" href="/favicon.ico" />
+            </Head>
+            <Navbar />
             <main>{children}</main>
-            <footer>
-                <p>&copy; 2025 Flashcards App</p>
-            </footer>
+            <Footer />
         </div>
     );
 }

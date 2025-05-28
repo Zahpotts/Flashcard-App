@@ -5,6 +5,8 @@ export default function Flashcards() {
     const [topic, setTopic] = useState('');
     const [count, setCount] = useState(5);
     const [loading, setLoading] = useState(false);
+    const [flippedStates, setFlippedStates] = useState({});
+
 
     const generateFlashcards = async () => {
         setLoading(true);
@@ -17,37 +19,55 @@ export default function Flashcards() {
         });
         const data = await response.json();
         setFlashcards(data.flashcards);
+        setFlippedStates(new Array(data.flashcards.length).fill(false)); // Initialize flipped states
         setLoading(false);
     };
-
+    const toggleFlip = (index) => {
+        setFlippedStates(prev => {
+            const newFlippedStates = [...prev];
+            newFlippedStates[index] = !newFlippedStates[index];
+            return newFlippedStates;
+        });
+    };
     return (
         <div className="p-4 max-w-xl mx-auto">
-            <h1 className=" text-xl font-bold mb-4">Flashcards</h1>
+            
+            <h1 className=" text-2xl font-bold mb-6 text-center text-gray-800">Flashcards</h1>
             <input
-                className="border p-2  w-full mb-4"
+                className="border p-3  w-full mb-4 rounded-lg"
                 type="text"
                 placeholder="Enter topic"
                 value={topic}
                 onChange={(e) => setTopic(e.target.value)}
             />
             <input
-                className="border p-2  w-full mb-4"
+                className="border p-3  w-full mb-4 rounded-lg"
                 type="number"
                 placeholder="Number of flashcards"
                 value={count}
                 onChange={(e) => setCount(e.target.value)}
             />
             <button
-                className="bg-blue-500 text-white p-2 rounded"
+                className="bg-blue-500 text-white p-3 w-full rounded-lg hover:bg-blue-600 transition"
                 onClick={generateFlashcards}
             >
                 {loading ? 'Generating...' : 'Generate Flashcards'}
             </button>
-            <ul className="mt-6 space-y-4">
+            <ul className="mt-8 grid grid-cols-1 gap-6">
                 {flashcards.map((card, index) => (
-                    <li key={index} className="border p-4 rounded shadow">
-                        <p><strong>Q:</strong>{card.question}</p>
-                        <p className="mt-2"><strong>A:</strong> {card.answer}</p>
+                    <li key={index}
+                        className="w-full h-48 perspective"
+                        onClick={() => toggleFlip(index)} >
+                        <div className={`relative w-full h-full duration-700 transform-style-preserve-3d transition-transform ${flippedStates[index] ? 'rotate-y-180' : ''}`}>
+                            {/* Front side */}
+                            <div className="absolute inset-0 bg-white border p-4 rounded-lg shadow-lg backface-hidden flex items-center justify-center">
+                                <p className="text-lg front-medium text-gray-800 text-center"><strong>Q:</strong>{card.question}</p>
+                            </div>
+                            {/* Back side */}
+                            <div className="absolute inset-0 bg-blue-100 border p-4 rounded-lg shadow-lg rotate-y-180 backface-hidden flex items-center justify-center">
+                                <p className="text-lg font-medium text-gray-800 text-center"><strong>A:</strong> {card.answer}</p>
+                            </div>
+                        </div>
                     </li>
 
                 ))}
