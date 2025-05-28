@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect } from "react";
 
 export default function Chatbot() {
-    const [messages, setMessages] = useState([{ role: 'assistant', content: "Hello! I/'m your AI learning assistant. Ask me anything about any topic you/'d like to learn" }]);
+    const [messages, setMessages] = useState([{ role: 'assistant', content: "Hello! I'm your AI learning assistant. Ask me anything about any topic you'd like to learn" }]);
     const [input, setInput] = useState('');
     const [loading, setLoading] = useState(false);
     const messagesEndRef = useRef(null);
