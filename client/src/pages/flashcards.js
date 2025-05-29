@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { API_BASE_URL } from "@/config/api";
 
 export default function Flashcards() {
     const [flashcards, setFlashcards] = useState([]);
@@ -10,7 +11,7 @@ export default function Flashcards() {
 
     const generateFlashcards = async () => {
         setLoading(true);
-        const response = await fetch('http://localhost:5000/api/flashcards/generate', {
+        const response = await fetch(`${API_BASE_URL}/api/flashcards/generate`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
