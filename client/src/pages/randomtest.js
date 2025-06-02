@@ -24,7 +24,7 @@ export default function RandomTest() {
             console.log("Sending request to:", "http://localhost:5000/api/randomtest/generate");
             console.log("Request payload:", { topic, count });
 
-            const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000'}`, {
+            const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000'}/api/randomtest/generate`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
